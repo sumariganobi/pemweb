@@ -9,7 +9,7 @@
 
 ## Member
 1. NS
-2.
+2. Jeremy
 3. 
 
 

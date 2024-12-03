@@ -13,4 +13,9 @@ class DashboardController extends Controller
         $locations = GudangLocation::all();
         return view('partials.locations', compact('locations'));
     }
+    public function itemsContent()
+    {
+        $items = Item::all();
+        return view('partials.items', compact('items'));
+    }
 }

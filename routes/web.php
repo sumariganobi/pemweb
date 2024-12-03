@@ -20,4 +20,8 @@ Route::get('/locations-content', [DashboardController::class, 'locationsContent'
 Route::post('/locations', [GudangLocationController::class, 'store'])->name('locations.store');
 Route::resource('locations', GudangLocationController::class);
 
+Route::get('/items-content', [DashboardController::class, 'itemsContent'])->name('items.content');
+Route::post('/items', [itemController::class, 'store'])->name('items.store');
+Route::resource('items', itemController::class);
+
 // Route::resource('outgoing-transactions', OutgoingTransactionController::class);

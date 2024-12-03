@@ -58,7 +58,7 @@
                     <a class="nav-link" href="{{ route('locations.content') }}" id="locations-link">Locations</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="" id="">Items</a>
+                    <a class="nav-link" href="{{ route('items.content') }}" id="items-link">Items</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="" id="">Transaction Income</a>
@@ -92,7 +92,18 @@
                 })
                 .catch(error => console.warn('Error loading content:', error));
             });
+
+            document.querySelector('.sidebar a[href="{{ route('items.content') }}"]').addEventListener('click', function (e) {
+            e.preventDefault();
+            fetch("{{ route('items.content') }}")
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('main-content').innerHTML = html;
+                })
+                .catch(error => console.warn('Error loading content:', error));
+            });
         });
+        
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
