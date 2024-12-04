@@ -3,7 +3,7 @@
 ## Member
 1. NobNob
 2. Jeremy
-3. 
+3. Bagus
 
 ## System Requirement
 - php ^8.2
