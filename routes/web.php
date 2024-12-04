@@ -5,8 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\GudangLocationController;
-use App\Http\Controllers\IncomingTransactionController;
-use App\Http\Controllers\OutgoingTransactionController;
+use App\Http\Controllers\TransactionsController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -24,4 +23,7 @@ Route::get('/items-content', [DashboardController::class, 'itemsContent'])->name
 Route::post('/items', [itemController::class, 'store'])->name('items.store');
 Route::resource('items', itemController::class);
 
-// Route::resource('outgoing-transactions', OutgoingTransactionController::class);
+Route::get('/transactions-content', [DashboardController::class, 'transactionsContent'])->name('transactions.content');
+// Route::get('/transactions/create', [TransactionsController::class, 'create'])->name('transactions.create');
+Route::post('/transactions/store', [TransactionsController::class, 'store'])->name('transactions.store');
+Route::resource('transactions', TransactionsController::class);

@@ -61,10 +61,7 @@
                     <a class="nav-link" href="{{ route('items.content') }}" id="items-link">Items</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="" id="">Transaction Income</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="" id="">Transaction Outgoing</a>
+                    <a class="nav-link" href="{{ route('transactions.content') }}" id="transactions-link">Transactions</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="" id="">Reports</a>
@@ -96,6 +93,16 @@
             document.querySelector('.sidebar a[href="{{ route('items.content') }}"]').addEventListener('click', function (e) {
             e.preventDefault();
             fetch("{{ route('items.content') }}")
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('main-content').innerHTML = html;
+                })
+                .catch(error => console.warn('Error loading content:', error));
+            });
+
+            document.querySelector('.sidebar a[href="{{ route('transactions.content') }}"]').addEventListener('click', function (e) {
+            e.preventDefault();
+            fetch("{{ route('transactions.content') }}")
                 .then(response => response.text())
                 .then(html => {
                     document.getElementById('main-content').innerHTML = html;

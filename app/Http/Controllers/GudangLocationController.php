@@ -2,23 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\GudangLocation;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Log;
 
 class GudangLocationController extends Controller
 {
-    public function index()
-    {
-        $locations = GudangLocation::all();
-        // return response()->json($locations);
-        return view('locations/index', compact('locations'));
-    }
-
-    public function create()
-    {
-        return view('locations.create');
-    }
-
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -53,7 +44,13 @@ class GudangLocationController extends Controller
         ]);
     
         $location = GudangLocation::findOrFail($id);
-        $location->update($request->all());
+        $checkLocation = Transaction::where('location_id', $location['id'])->first();
+        if($checkLocation){
+            DB::rollBack();
+            return redirect()->route('dashboard')->with('error', 'Cannot update this location because it is linked to existing transactions.')->withErrors('Cannot update this location because it is linked to existing transactions.');
+        }else{
+            $location->update($request->all());
+        }
     
         return redirect()->route('dashboard')->with('success', 'Location updated successfully.');
     }
@@ -61,8 +58,14 @@ class GudangLocationController extends Controller
     public function destroy($id)
     {
         $location = GudangLocation::findOrFail($id);
-        $location->delete();
+        $checkLocation = Transaction::where('location_id', $location['id'])->first();
+        if($checkLocation){
+            DB::rollBack();
+            return redirect()->route('dashboard')->with('error', 'Cannot delete this location because it is linked to existing transactions.')->withErrors('Cannot delete this location because it is linked to existing transactions.');
+        }else{
+            $location->delete();
+        }
         
-        return redirect()->route('dashboard')->with('success', 'Item deleted successfully.');
+        return redirect()->route('dashboard')->with('success', 'Location deleted successfully.');
     }
 }

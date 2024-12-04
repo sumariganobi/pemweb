@@ -2,23 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\Item;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Log;
 
 class ItemController extends Controller
 {
-    public function index()
-    {
-        $items = Item::all();
-        // return response()->json($locations);
-        return view('items/index', compact('items'));
-    }
-
-    public function create()
-    {
-        return view('items.create');
-    }
-
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -53,7 +44,12 @@ class ItemController extends Controller
         ]);
     
         $item = Item::findOrFail($id);
-        $item->update($request->all());
+        if($checkItem){
+            DB::rollBack();
+            return redirect()->route('dashboard')->with('error', 'Cannot update this item because it is linked to existing transactions.')->withErrors('Cannot update this item because it is linked to existing transactions.');
+        }else{
+            $item->update($request->all());
+        }
     
         return redirect()->route('dashboard')->with('success', 'Item updated successfully.');
     }
@@ -61,7 +57,13 @@ class ItemController extends Controller
     public function destroy($id)
     {
         $item = Item::findOrFail($id);
-        $item->delete();
+        $checkItem = Transaction::where('item_id', $item['id'])->first();
+        if($checkItem){
+            DB::rollBack();
+            return redirect()->route('dashboard')->with('error', 'Cannot delete this item because it is linked to existing transactions.')->withErrors('Cannot delete this item because it is linked to existing transactions.');
+        }else{
+            $item->delete();
+        }
         
         return redirect()->route('dashboard')->with('success', 'Item deleted successfully.');
     }

@@ -8,7 +8,7 @@
 </p>
 
 ## Member
-1. NS
+1. NobNob
 2. Jeremy
 3. 
 
