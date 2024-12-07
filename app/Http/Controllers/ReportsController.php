@@ -11,11 +11,11 @@ class ReportsController extends Controller
 {
     public function reportsContent()
     {
-        $items = item::with('transaction')
+        $items = Item::with('transactions')
         ->get()
         ->map(function($item){
             $income = $item->transactions()->where('transaction_type', 'income')->sum('quantity');
-            $outcome = $item->transaction()->where('transaction_type', 'outcome')->sum('quantity');
+            $outcome = $item->transactions()->where('transaction_type', 'outcome')->sum('quantity');
             return[
                 'name' => $item->name,
                 'income' => $income,

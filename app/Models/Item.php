@@ -17,4 +17,8 @@ class Item extends Model
         'name',
         'description',
     ];
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'item_id');
+    }
 }
