@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\GudangLocationController;
 use App\Http\Controllers\TransactionsController;
+use App\Http\Controllers\ReportsController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -27,3 +28,5 @@ Route::get('/transactions-content', [DashboardController::class, 'transactionsCo
 // Route::get('/transactions/create', [TransactionsController::class, 'create'])->name('transactions.create');
 Route::post('/transactions/store', [TransactionsController::class, 'store'])->name('transactions.store');
 Route::resource('transactions', TransactionsController::class);
+
+Route::get('reports-content', [ReportsController::class, 'reportsContent'])->name('reports.content');
